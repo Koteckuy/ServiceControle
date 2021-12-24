@@ -1,0 +1,278 @@
+﻿<Window x:Class="SCS.AddOrderDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="AddOrderDialog" 
+        xmlns:local="clr-namespace:SCS"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        BorderBrush="#FF272727"
+        BorderThickness="2"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen" Width="500" Background="#FF303030" Foreground="White">
+
+    <Window.Resources>
+        <ControlTemplate x:Key="RoundedButtonTemplate" TargetType="{x:Type Button}">
+            <Grid x:Name="grid">
+                <Border x:Name="border" Background="#607d8b" CornerRadius="8" BorderThickness="2">
+                    <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              TextElement.FontWeight="Bold">
+                    </ContentPresenter>
+                </Border>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" TargetName="border" Value="#435761"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <ControlTemplate x:Key="RoundedButtonTemplate2" TargetType="{x:Type Button}">
+            <Grid x:Name="grid">
+                <Border 
+                    x:Name="border"
+                    Background="#272727"
+                    BorderBrush="#acacac" 
+                    CornerRadius="8" 
+                    BorderThickness="1">
+                    <ContentPresenter 
+                        Margin="0,-3,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        TextElement.FontWeight="Bold">
+                    </ContentPresenter>
+                </Border>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter 
+                        Property="Background" 
+                        TargetName="border" 
+                        Value="#303030"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+
+    <Grid Width="500" Height="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+            <RowDefinition Height="100"/>
+
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="50"/>
+        </Grid.ColumnDefinitions>
+
+        <Label
+            Name="AddPopupTitle"
+            Grid.Row="0"
+            Grid.Column="1"
+            Content="Заказ" 
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Left" 
+            FontSize="24" Foreground="White" />
+
+        <Button Content="x" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#00000000" FontSize="24" FontFamily="Berlin Sans FB Demi" Margin="408.6,30,0,30"/>
+
+        <Button
+            Name="CloseButton"
+            Grid.Row="0"
+            Grid.Column="1"
+            Content="x" 
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Left" 
+            FontSize="28" 
+            Foreground="White" 
+            FontFamily="OCR A Extended" 
+            Background="#00000000" Click="CloseButton_Click" Margin="365.6,29,0,29" />
+
+        <StackPanel
+            Name="AddOrder"
+            Grid.Column="1" 
+            Grid.Row="1"
+            Visibility="Visible">
+            <DockPanel>
+                <ComboBox
+                    Name="OrderClientComboBox"
+                    ui:ControlHelper.PlaceholderText="Клиент*" 
+                    HorizontalAlignment="Stretch"
+                    Width="300"
+                    SelectionChanged="OrderClientComboBox_SelectionChanged"/>
+                <Button
+                    Name="AddClientButton"
+                    Content="Добавить"
+                    Margin="5,0,0,0"
+                    Template="{StaticResource RoundedButtonTemplate2}" 
+                    VerticalAlignment="Stretch" 
+                    HorizontalAlignment="Stretch" 
+                    Foreground="#FFACACAC" 
+                    Click="AddClientButton_Click"/>
+            </DockPanel>
+            <DockPanel
+                Margin="0,20">
+                <ComboBox
+                    Name="OrderDeviceComboBox"
+                    ui:ControlHelper.PlaceholderText="Устройство*" 
+                    HorizontalAlignment="Stretch"
+                    Width="300"/>
+                <Button
+                    Name="AddDeviceButton"
+                    Content="Добавить"
+                    Margin="5,0,0,0"
+                    Template="{StaticResource RoundedButtonTemplate2}" 
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Foreground="#FFACACAC" 
+                    Click="AddDeviceButton_Click"/>
+            </DockPanel>
+            <DockPanel>
+                <ComboBox
+                    Name="OrderMasterComboBox"
+                    ui:ControlHelper.PlaceholderText="Мастер*" 
+                    Width="300"
+                    HorizontalAlignment="Stretch"/>
+                <Button
+                    Name="AddMasterButton"
+                    Content="Добавить"
+                    Margin="5,0,0,0"
+                    Template="{StaticResource RoundedButtonTemplate2}" 
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Foreground="#FFACACAC" 
+                    Click="AddMasterButton_Click" />
+            </DockPanel>
+            <ComboBox
+                Name="OrderStatusComboBox"
+                ui:ControlHelper.PlaceholderText="Статус*" 
+                HorizontalAlignment="Stretch"
+                Margin="0,20"/>
+            <TextBox
+                IsReadOnly="True"
+                Name="OrderPriceTextBox"
+                ui:ControlHelper.PlaceholderText="Стоимость*"/>
+            <DockPanel
+                Margin="0,20,0,10">
+                <ComboBox
+                    Name="OrderServiceComboBox"
+                    ui:ControlHelper.PlaceholderText="Услуги" 
+                    HorizontalAlignment="Stretch" Width="232"/>
+                <Button 
+                    Name="AddServiceButton"
+                    Content="Добавить" 
+                    HorizontalAlignment="Right"
+                    Margin="10,0" Click="AddServiceButton_Click"/>
+                <Button 
+                    Name="DeleteServiceButton"
+                    Content="Удалить" 
+                    HorizontalAlignment="Right" Click="DeleteServiceButton_Click"/>
+            </DockPanel>
+            <DataGrid
+                Name="ServiceOrderGrid"
+                Grid.Row="1" 
+                Grid.Column="0"
+                AutoGenerateColumns="False"
+                HeadersVisibility="Column"
+                SelectionMode="Extended"
+                IsReadOnly="True"
+                BorderThickness="1"
+                BorderBrush="#868686"
+                GridLinesVisibility="None"
+                Height="131.2">
+                <DataGrid.Columns>
+                    <DataGridTextColumn 
+                        Header="Наименование" 
+                        Binding="{Binding Name}"
+                        CanUserResize="False"/>
+                    <DataGridTextColumn 
+                        Header="Стоимость" 
+                        Binding="{Binding Price}"
+                        CanUserResize="False"/>
+                    <DataGridTextColumn 
+                        Header="Описание" 
+                        Binding="{Binding Description}"
+                        CanUserResize="False"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DockPanel
+                Margin="0,20,0,10">
+                <ComboBox
+                    Name="OrderSpareComboBox"
+                    ui:ControlHelper.PlaceholderText="Запчасти" 
+                    HorizontalAlignment="Stretch" Width="232"/>
+                <Button 
+                    Name="AddSpareButton"
+                    Content="Добавить" 
+                    HorizontalAlignment="Right"
+                    Margin="10,0" Click="AddSpareButton_Click"/>
+                <Button 
+                    Name="DeleteSpareButton"
+                    Content="Удалить" 
+                    HorizontalAlignment="Right" Click="DeleteSpareButton_Click"/>
+            </DockPanel>
+            <DataGrid
+                Name="SpareOrderGrid"
+                Grid.Row="1" 
+                Grid.Column="0"
+                AutoGenerateColumns="False"
+                HeadersVisibility="Column"
+                SelectionMode="Extended"
+                IsReadOnly="True"
+                BorderThickness="1"
+                BorderBrush="#868686"
+                GridLinesVisibility="None"
+                Height="131.2">
+                <DataGrid.Columns>
+                    <DataGridTextColumn 
+                        Header="Наименование" 
+                        Binding="{Binding Name}"
+                        CanUserResize="False"/>
+                    <DataGridTextColumn 
+                        Header="Производитель" 
+                        Binding="{Binding Brand}"
+                        CanUserResize="False"/>
+                    <DataGridTextColumn 
+                        Header="Модель"
+                        Binding="{Binding Model}"
+                        CanUserResize="False"/>
+                    <DataGridTextColumn 
+                        Header="Поставщик" 
+                        Binding="{Binding Provider}"
+                        CanUserResize="False"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <DockPanel
+            Grid.Column="1" Grid.Row="2">
+            <Button
+                Name="SaveButton"
+                Template="{StaticResource RoundedButtonTemplate}"
+                Content="Сохранить" 
+                Grid.Column="1" Grid.Row="2" 
+                VerticalAlignment="Center" 
+                Height="40" 
+                Width="150"
+                Foreground="White" 
+                Click="SaveButton_Click" />
+            <Button
+                Name="DeleteButton"
+                Template="{StaticResource RoundedButtonTemplate}"
+                Content="Удалить" 
+                Grid.Column="1" Grid.Row="2" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Center" 
+                Height="40"
+                Width="150"
+                Foreground="White" 
+                Click="DeleteButton_Click"/>
+        </DockPanel>
+    </Grid>
+</Window>
